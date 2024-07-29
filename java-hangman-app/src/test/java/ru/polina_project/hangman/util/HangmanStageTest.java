@@ -1,8 +1,14 @@
 package ru.polina_project.hangman.util;
 
-public class HangmanStage {
-    public static final String[] STAGES = {
-            """
+import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.*;
+
+class HangmanStageTest {
+    @Test
+    void testHangmanStages() {
+        final String[] expectedStages = {
+                """
                         +-----+
                         |     |
                         O     |
@@ -11,7 +17,7 @@ public class HangmanStage {
                               |
                         =========
             """,
-            """
+                """
                         +-----+
                         |     |
                         0     |
@@ -20,7 +26,7 @@ public class HangmanStage {
                               |
                         =========
             """,
-            """
+                """
                         +-----+
                         |     |
                         0     |
@@ -30,7 +36,7 @@ public class HangmanStage {
                         =========
             
             """,
-            """
+                """
                         +-----+
                         |     |
                         O     |
@@ -39,7 +45,7 @@ public class HangmanStage {
                               |
                         =========
             """,
-            """
+                """
                         +-----+
                         |     |
                         O     |
@@ -49,7 +55,7 @@ public class HangmanStage {
                         =========
             
             """,
-            """
+                """
                         +-----+
                         |     |
                         O     |
@@ -58,7 +64,7 @@ public class HangmanStage {
                               |
                         =========
             """,
-            """
+                """
                         +-----+
                         |     |
                               |
@@ -67,7 +73,7 @@ public class HangmanStage {
                               |
                         =========
             """,
-            """
+                """
                               +
                               |
                               |
@@ -76,5 +82,8 @@ public class HangmanStage {
                               |
                         =========
             """
-    };
+        };
+
+        assertArrayEquals(expectedStages, HangmanStage.STAGES);
+    }
 }

@@ -3,14 +3,22 @@ package ru.polina_project.hangman.game;
 import ru.polina_project.hangman.util.HangmanStage;
 import ru.polina_project.hangman.util.Masker;
 import ru.polina_project.hangman.util.Parser;
+import ru.polina_project.hangman.util.WordValidation;
 
-import java.util.List;
-import java.util.Random;
-import java.util.Scanner;
+import java.util.*;
+
+import static ru.polina_project.hangman.util.ParsingIntBooleanVariables.parseBooleanOrDefault;
+import static ru.polina_project.hangman.util.ParsingIntBooleanVariables.parseIntOrDefault;
+
 
 public class Game {
-    static boolean IS_GAME_ENABLED = Boolean.parseBoolean(System.getenv("IS_GAME_ENABLED"));
-    static int ATTEMPTS = Integer.parseInt(System.getenv("ATTEMPTS"));
+    static boolean IS_GAME_ENABLED = parseBooleanOrDefault(System.getenv("IS_GAME_ENABLED"), false);
+    static int ATTEMPTS = parseIntOrDefault(System.getenv("ATTEMPTS"), 8);
+    private static final Set<Character> enteredLetters = new HashSet<>();
+
+    public static boolean wasLetterEnteredBefore(char letter) {
+        return enteredLetters.contains(letter);
+    }
 
 
     public static void startGame() {
@@ -32,24 +40,37 @@ public class Game {
         StringBuilder maskedWord = new StringBuilder(Masker.doMask('*', word));
 
         System.out.printf("""
-                --------------------------------------------------------------------------------------------------------
-                |                                      Your word to decode is: %s                                      |
-                --------------------------------------------------------------------------------------------------------
-                       \s
-                %n""", maskedWord);
+                --------------------------------------------------------------------------------------------------------------------------------------------
+                                                      Your word to decode is: %s                                      
+                --------------------------------------------------------------------------------------------------------------------------------------------
+                       
+                """, maskedWord);
 
         while (IS_GAME_ENABLED) {
-            System.out.println("""
+            System.out.printf("""
+                                       
                                         
-                    ----------------------------------------------------------------------------------------------------
-                     |                                Type a letter of decoded word:                                  |
-                    ----------------------------------------------------------------------------------------------------
-                    """);
-            Scanner scanner = new Scanner(System.in);
-            String line = scanner.next();
+                                                    Type a letter to decode the word: %s                              
+                                        
+                    ...
+                                        
+                    """, maskedWord);
 
-            // сделать валидацию на приходящий символ
-            // char
+            String line;
+            while (true) {
+                Scanner scanner = new Scanner(System.in);
+                line = scanner.next();
+                if (WordValidation.doesInputLineIsChar(line)) break;
+                System.out.println("Input letter is incorrect!!!");
+
+            }
+            char letter = line.charAt(0);
+            if (wasLetterEnteredBefore(letter)) {
+                System.out.println("You've already entered this letter!");
+                continue;
+            }
+            enteredLetters.add(letter);
+
 
             boolean isSuggestedLetterExistInMaskedWord = false; // сделать нейминг
             for (int i = 0; i < word.length(); i++) {
@@ -61,34 +82,35 @@ public class Game {
 
             if (maskedWord.toString().equals(word)) {
                 System.out.printf("""
-                                        --------------------------------------------------------------------------------------------
+                        --------------------------------------------------------------------------------------------------------------------------------------------
                                                     Congratulations! You've decoded the word: %s
-                                        --------------------------------------------------------------------------------------------
-                        %n""", word);
+                        --------------------------------------------------------------------------------------------------------------------------------------------                
+                        """, word);
                 IS_GAME_ENABLED = false;
             } else if (isSuggestedLetterExistInMaskedWord) {
                 System.out.printf("""
-                                        --------------------------------------------------------------------------------------------
+                        --------------------------------------------------------------------------------------------------------------------------------------------              
                                                     Good result! Keep guessing! Your word is looking now: %s
-                                        --------------------------------------------------------------------------------------------
-                        %n""", maskedWord);
+                        --------------------------------------------------------------------------------------------------------------------------------------------                
+                        """, maskedWord);
             } else {
                 ATTEMPTS--;
 
-                System.out.printf("""
-                        --------------------------------------------------------------------------------------------
-                                       Your letter is wrong! You have only %s attempts. Y
-                        --------------------------------------------------------------------------------------------
-                        %n""", ATTEMPTS);
-
                 if (ATTEMPTS > 0) {
-                    System.out.println(HangmanStage.STAGES[HangmanStage.STAGES.length - ATTEMPTS]);
-                } else {
                     System.out.printf("""
-                                    --------------------------------------------------------------------------------------------
-                                                Your attempts are over :(  The decoded word was: %s
-                                    --------------------------------------------------------------------------------------------
-                    %n""", word);
+                            ****************************************************************************************************************************************
+                                                                Your letter is wrong! You have only %s attempts. 
+                            ****************************************************************************************************************************************
+                                                    
+                            """, ATTEMPTS);
+                    System.out.println(HangmanStage.STAGES[ATTEMPTS]);
+                } else {
+                    System.out.println(HangmanStage.STAGES[0]);
+                    System.out.printf("""
+                            ****************************************************************************************************************************************                
+                                                        Your attempts are over :(  The decoded word was: %s
+                            ****************************************************************************************************************************************                
+                            """, word);
                     IS_GAME_ENABLED = false;
                 }
             }

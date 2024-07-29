@@ -9,38 +9,25 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 import static ru.polina_project.hangman.util.Parser.loadWords;
 
 public class ParserTest {
-    private Path tempFile;
-
-    @BeforeEach
-    public void setUp() throws IOException {
-        Path tempFile = Files.createTempFile("test-words", ".txt");
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter(tempFile.toFile()))) {
-            writer.write("1word\n");
-            writer.write("2word\n");
-            writer.write("3word\n");
-        }
-    }
-
-    @AfterEach
-    public void deleteFile() throws IOException {
-        Files.deleteIfExists(tempFile);
-    }
 
     @Test
-    public void testLoadWords() throws IOException {
-        List<String> words1 = Parser.loadWords(tempFile.toString());
+    public void setUp() throws IOException {
+        Path tempFile = Files.createTempFile("test-words", ".txt");
+        Files.write(tempFile, List.of("word1", "word2", "word3"));
+
         List<String> words = Parser.loadWords(tempFile.toString());
-        assertTrue(words.contains("1word"));
-        assertTrue(words.contains("2word"));
-        assertTrue(words.contains("3word"));
 
+        assertNotNull(words);
+        assertEquals(3, words.size());
+        assertTrue(words.contains("word1"));
+        assertTrue(words.contains("word2"));
+        assertTrue(words.contains("word3"));
 
+        Files.deleteIfExists(tempFile);
     }
-
-
 }
 
