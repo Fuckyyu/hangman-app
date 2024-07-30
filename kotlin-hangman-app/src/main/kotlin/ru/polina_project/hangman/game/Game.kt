@@ -1,13 +1,9 @@
 package ru.polina_project.hangman.game
 
-import ru.polina_project.hangman.util.HangmanStage
-import ru.polina_project.hangman.util.Masker
-import ru.polina_project.hangman.util.Parser
-import ru.polina_project.hangman.util.WordValidation
+import ru.polina_project.hangman.util.*
 import java.util.*
 
 
-object Game {
     private val ENTERED_LETTERS: MutableSet<Char> = HashSet()
 
     private fun wasLetterEnteredBefore(letter: Char): Boolean {
@@ -23,7 +19,7 @@ object Game {
                  |                                    Hangman game is started!                                        |
                 --------------------------------------------------------------------------------------------------------
                 
-                """.trimIndent()
+                """
         )
         processGame()
     }
@@ -34,39 +30,35 @@ object Game {
 
     private fun processGame() {
         val words =
-            Parser.loadWords("/Users/polynww/IdeaProjects/hangman-app/java-hangman-app/src/main/resources/words.txt")
+            loadWords("/Users/polynww/IdeaProjects/hangman-app/java-hangman-app/src/main/resources/words.txt")
         val word = chooseRandomWord(words)
-        val maskedWord = StringBuilder(Masker.doMask('*', word))
+        val maskedWord = StringBuilder(doMask('*', word))
 
         System.out.printf(
             """
                 --------------------------------------------------------------------------------------------------------------------------------------------
                                                       Your word to decode is: %s                                      
                 --------------------------------------------------------------------------------------------------------------------------------------------
-                       
-                
-                       
-                """.trimIndent(), maskedWord
+                      
+                """, maskedWord
         )
 
         var attemptsCounter = 8
         while (true) {
             System.out.printf(
                 """
-                                       
-                                        
                                                     Type a letter to decode the word: %s                              
                                         
                     ...
-                                      
-                    """.trimIndent(), maskedWord
+                     
+                    """, maskedWord
             )
 
             var line: String
             while (true) {
                 val scanner = Scanner(System.`in`)
                 line = scanner.next()
-                if (WordValidation.doesInputLineIsChar(line)) break
+                if (doesInputLineIsChar(line)) break
                 println("Input letter is incorrect!!!")
             }
             val letter = line[0]
@@ -92,7 +84,7 @@ object Game {
                                                     Congratulations! You've decoded the word: %s
                         --------------------------------------------------------------------------------------------------------------------------------------------                
                         
-                        """.trimIndent(), word
+                        """, word
                 )
                 break
             } else if (isSuggestedLetterExistInMaskedWord) {
@@ -102,7 +94,7 @@ object Game {
                                                     Good result! Keep guessing! Your word is looking now: %s
                         --------------------------------------------------------------------------------------------------------------------------------------------                
                         
-                        """.trimIndent(), maskedWord
+                        """, maskedWord
                 )
             } else {
                 attemptsCounter--
@@ -113,21 +105,19 @@ object Game {
                             ****************************************************************************************************************************************
                                                                 Your letter is wrong! You have only %s attempts. 
                             ****************************************************************************************************************************************
-                                                    
-                            
-                                                    
-                            """.trimIndent(), attemptsCounter
+                                                     
+                            """, attemptsCounter
                     )
-                    println(HangmanStage.STAGES[attemptsCounter])
+                    println(STAGES[attemptsCounter])
                 } else {
-                    println(HangmanStage.STAGES[0])
+                    println(STAGES[0])
                     System.out.printf(
                         """
                             ****************************************************************************************************************************************                
                                                         Your attempts are over :(  The decoded word was: %s
                             ****************************************************************************************************************************************                
                             
-                            """.trimIndent(), word
+                            """, word
                     )
                     break
                 }
@@ -138,4 +128,4 @@ object Game {
     private fun clearEnteredLetters() {
         ENTERED_LETTERS.clear()
     }
-}
+

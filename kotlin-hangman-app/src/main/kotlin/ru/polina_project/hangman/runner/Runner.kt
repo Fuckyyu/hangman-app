@@ -1,6 +1,5 @@
 package ru.polina_project.hangman.runner
-
-import ru.polina_project.hangman.game.Game
+import ru.polina_project.hangman.game.startGame
 import java.util.*
 
 var IS_GAME_ENABLED = true
@@ -9,7 +8,7 @@ private fun appRunner(scanner: Scanner) {
     val input = scanner.nextInt()
 
     if (input == 1) {
-        Game.startGame()
+       startGame()
     } else {
         IS_GAME_ENABLED = false
     }

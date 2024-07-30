@@ -1,9 +1,7 @@
 package ru.polina_project.hangman.util
 
-object HangmanStage {
-
     val STAGES = listOf(
-        """
+             """
                         +-----+
                         |     |
                         O     |
@@ -12,9 +10,9 @@ object HangmanStage {
                               |
                         =========
             
+            """,
+
             """
-            .trimIndent(),
-        """
                         +-----+
                         |     |
                         0     |
@@ -23,9 +21,9 @@ object HangmanStage {
                               |
                         =========
             
+            """,
+
             """
-            .trimIndent(),
-        """
                         +-----+
                         |     |
                         0     |
@@ -34,9 +32,9 @@ object HangmanStage {
                               |
                         =========
             
+            """,
+
             """
-            .trimIndent(),
-        """
                         +-----+
                         |     |
                         O     |
@@ -45,9 +43,9 @@ object HangmanStage {
                               |
                         =========
             
+            """,
+
             """
-            .trimIndent(),
-        """
                         +-----+
                         |     |
                         O     |
@@ -56,9 +54,9 @@ object HangmanStage {
                               |
                         =========
             
+            """,
+
             """
-            .trimIndent(),
-        """
                         +-----+
                         |     |
                         O     |
@@ -67,9 +65,9 @@ object HangmanStage {
                               |
                         =========
             
+            """,
+
             """
-            .trimIndent(),
-        """
                         +-----+
                         |     |
                               |
@@ -78,9 +76,9 @@ object HangmanStage {
                               |
                         =========
             
-            """
-            .trimIndent(),
-        """
+             """,
+
+             """
                               +
                               |
                               |
@@ -90,8 +88,8 @@ object HangmanStage {
                         =========
             
             """
-            .trimIndent()
+
     )
-}
+
 
 
