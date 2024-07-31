@@ -1,14 +1,16 @@
 package ru.polina_project.hangman.runner
+
 import ru.polina_project.hangman.game.startGame
+import ru.polina_project.hangman.util.parseBooleanOrDefault
 import java.util.*
 
-var IS_GAME_ENABLED = true
+var IS_GAME_ENABLED: Boolean = parseBooleanOrDefault(System.getenv("IS_GAME_ENABLED"), false)
 
 private fun appRunner(scanner: Scanner) {
     val input = scanner.nextInt()
 
     if (input == 1) {
-       startGame()
+        startGame()
     } else {
         IS_GAME_ENABLED = false
     }
@@ -24,6 +26,7 @@ fun main() {
 
     println("Do you want to play the game Hangman? (1 - YES, 0 - NO)")
     appRunner(scanner)
+
 
     while (IS_GAME_ENABLED) {
         println("Do you want to play the game Hangman AGAIN? (1 - YES, 0 - NO)")

@@ -4,8 +4,10 @@ import ru.polina_project.hangman.game.Game;
 
 import java.util.Scanner;
 
+import static ru.polina_project.hangman.util.ParsingBooleanVariable.parseBooleanOrDefault;
+
 public class Runner {
-    private static boolean IS_GAME_ENABLED = true;
+    static boolean IS_GAME_ENABLED = parseBooleanOrDefault(System.getenv("IS_GAME_ENABLED"), false);
 
     private static void appRunner(Scanner scanner) {
         int input = scanner.nextInt();
@@ -29,7 +31,7 @@ public class Runner {
         appRunner(scanner);
 
 
-         while (IS_GAME_ENABLED) {
+        while (IS_GAME_ENABLED) {
             System.out.println("Do you want to play the game Hangman AGAIN? (1 - YES, 0 - NO)");
             appRunner(scanner);
         }
