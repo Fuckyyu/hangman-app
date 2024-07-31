@@ -17,6 +17,7 @@ subprojects {
 
         testImplementation("org.junit.jupiter:junit-jupiter-api:5.8.1")
         testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:5.8.1")
+        testImplementation("com.github.stefanbirkner:system-lambda:1.2.0")
         testImplementation("org.mockito:mockito-core:5.12.0")
         testImplementation("org.mockito:mockito-inline:3.4.0")
     }
