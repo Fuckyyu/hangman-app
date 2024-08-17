@@ -1,3 +1,3 @@
-# java-hangman
+# hangman
 
-Приложение висилица на java
+Приложение висилица на java и на Kotlin
